@@ -12,6 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -22,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ExecutorService mExecutorService;
     private ArrayList<Uri> mUriList;
-    private GridView mGridView;
-    private ImageGridAdapter mImageGridAdapter;
+    private RecyclerView mRecyclerView;
+    private ImageAdapter mAdapter;
     private Handler mHandler;
 
     @Override
@@ -32,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mExecutorService = Executors.newSingleThreadExecutor();
         mUriList = new ArrayList<>();
-        mGridView = findViewById(R.id.grid_view);
-        mGridView.setOnItemClickListener((parent, view, position, id) -> {
-            startActivity(ImageActivity.newIntent(MainActivity.this, mUriList, position));
-        });
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mAdapter = new ImageAdapter();
+        mRecyclerView.setAdapter(mAdapter);
         mHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -82,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setList(ArrayList<Uri> uriList) {
-        mUriList = uriList;
-        mImageGridAdapter = new ImageGridAdapter(MainActivity.this, mUriList);
-        mGridView.setAdapter(mImageGridAdapter);
+        mUriList.clear();
+        mUriList.addAll(uriList);
+        mAdapter.setUriList(uriList);
     }
 
     @Override

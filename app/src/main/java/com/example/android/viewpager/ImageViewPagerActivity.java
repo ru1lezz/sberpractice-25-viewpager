@@ -10,7 +10,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageActivity extends AppCompatActivity {
+public class ImageViewPagerActivity extends AppCompatActivity {
 
     private static final String EXTRA_LIST = "uri_list";
     private static final String EXTRA_POSITION = "position";
@@ -32,7 +32,7 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     public static Intent newIntent(Context context, ArrayList<Uri> uriList, int position) {
-        Intent intent = new Intent(context, ImageActivity.class);
+        Intent intent = new Intent(context, ImageViewPagerActivity.class);
         intent.putParcelableArrayListExtra(EXTRA_LIST, uriList);
         intent.putExtra(EXTRA_POSITION, position);
         return intent;
